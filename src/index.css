@@ -1,0 +1,100 @@
+@plugin "daisyui";
+@import "tailwindcss";
+
+/* 1. Font Import */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+/* 2. Theme Configuration */
+@theme {
+  --font-dm-sans: "DM Sans", ui-sans-serif, system-ui;
+  --animate-spin-slow: spin 12s linear infinite;
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* 3. Base Reset */
+@layer base {
+
+
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    /* Transparent allows the -z-50 video to show through */
+    background-color: transparent !important;
+    @apply antialiased overflow-x-hidden;
+    font-family: var(--font-dm-sans);
+  }
+
+  body {
+    cursor: none;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    body { cursor: auto; }
+    .fixed.pointer-events-none { display: none; }
+  }
+}
+
+
+@layer base {
+  body {
+    background-color: transparent !important; /* Required for fixed video background */
+    font-family: 'DM Sans', ui-sans-serif, system-ui;
+    @apply antialiased overflow-x-hidden;
+  }
+}
+
+
+/* 2. Layering Protocols (Crucial for blocking video leak) */
+main {
+  position: relative;
+  z-index: 10;
+}
+
+/* We create an opaque "container" for solid sections like Portfolio/Stats */
+.opaque-content-block {
+  position: relative;
+  z-index: 20; /* Higher than main z-10 */
+  background-color: #F9F8F3; /* Signature Floka cream */
+}
+
+/* 3. Transition Easings for high-end feel */
+:root {
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.ease-out-quint {
+  transition-timing-function: var(--ease-out-quint);
+}
+
+
+
+/* 4. Utility Classes for Layering */
+.video-background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -50; /* Absolute bottom */
+  overflow: hidden;
+  background-color: #000;
+}
+
+.video-overlay-tint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #F9F8F3; 
+  opacity: 0.35; /* Tint over the video */
+  z-index: -40;  
+  pointer-events: none;
+}
