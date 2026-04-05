@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import StatsGrid from "./components/StatsGrid";
 import Portfolio from "./components/Portfolio";
 import StatsSection from "./components/StatsSection";
-
+import ClientLogoGrid from "./components/ClientLogoGrid";
 import Footer from "./components/Footer";
 import InsightsSection from "./components/InsightsSection";
 
@@ -45,7 +45,7 @@ function App() {
 
           <StatsSection/>
 
-          {/* <ClientLogoGrid/> */}
+          <ClientLogoGrid/>
 
           <InsightsSection/>
 
