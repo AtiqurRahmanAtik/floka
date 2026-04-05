@@ -75,12 +75,7 @@ const Portfolio = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out"
                 />
               </div>
-              <div className="flex justify-between items-center mt-6 px-4">
-                <h3 className="text-xl font-bold text-[#1A1A1A]">
-                  {project.title} <span className="text-gray-400 font-medium ml-1">/{project.type}</span>
-                </h3>
-                <span className="text-sm font-bold text-gray-300">{project.year}</span>
-              </div>
+             
             </div>
           ))}
         </div>

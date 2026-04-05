@@ -15,27 +15,27 @@
   }
 }
 
-
-
-
+/* 3. Base & Layer Styles */
 @layer base {
   html, body {
     margin: 0;
     padding: 0;
-    /* This allows the video at -z-50 to be seen */
+    width: 100%;
+    min-height: 100%;
+    /* Transparent allows the fixed video behind to show through */
     background-color: transparent !important;
+    font-family: 'DM Sans', sans-serif;
     @apply antialiased overflow-x-hidden;
   }
 
   body {
-    cursor: none; /* For your GSAP cursor */
+    cursor: none; /* For your GSAP custom cursor */
   }
-}
 
-
-section {
-  position: relative;
-}
+  section {
+    position: relative;
+    z-index: 10; /* Ensures content stays above background layers */
+  }
 
   /* Handle Mobile Cursor */
   @media (hover: none) and (pointer: coarse) {
@@ -48,14 +48,14 @@ section {
   }
 }
 
-/* 4. Layering Components */
+/* 4. Layering Components (Background Video System) */
 .video-background-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -2; /* Absolute bottom */
+  z-index: -50; /* Set very far back to avoid overlapping UI */
   overflow: hidden;
 }
 
@@ -71,8 +71,20 @@ section {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #F9F8F3; /* The 'Floka' cream color from UI */
-  opacity: 0.5; /* Higher = more cream, Lower = more video */
-  z-index: -1;  /* Between video and content */
+  background-color: #F9F8F3; 
+  opacity: 0.5;
+  z-index: -40; /* Between video (-50) and content (10+) */
   pointer-events: none;
+}
+
+/* 5. UI Utilities */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F9F8F3;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 10px;
 }

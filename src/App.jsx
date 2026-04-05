@@ -3,6 +3,7 @@ import Approach from "./components/Approach";
 import BackgroundVideo from "./components/BackgroundVideo";
 import Navbar from "./components/Navbar";
 import StatsGrid from "./components/StatsGrid";
+import Portfolio from "./components/Portfolio";
 
 
 function App() {
@@ -32,7 +33,19 @@ function App() {
         {/* --- Section 3: THE SOLID OPAQUE BLOCK (Video is HIDDEN) --- 
             We wrap solid sections in this container to cut off the video.
         */}
-       
+        <div className="opaque-content-block">
+          
+          {/* New Portfolio Section (T5 Design) */}
+          <Portfolio />
+
+          {/* <StatsSection/> */}
+
+         
+          
+          <footer className="h-[30vh] flex items-center justify-center border-t border-gray-100">
+            <p className="text-sm font-medium text-gray-400">© 2024 Floka Studio. All rights reserved.</p>
+          </footer>
+        </div>
 
       </main>
     </div>
