@@ -4,6 +4,11 @@ import BackgroundVideo from "./components/BackgroundVideo";
 import Navbar from "./components/Navbar";
 import StatsGrid from "./components/StatsGrid";
 import Portfolio from "./components/Portfolio";
+import StatsSection from "./components/StatsSection";
+
+import Footer from "./components/Footer";
+import InsightsSection from "./components/InsightsSection";
+
 
 
 function App() {
@@ -38,7 +43,13 @@ function App() {
           {/* New Portfolio Section (T5 Design) */}
           <Portfolio />
 
-          {/* <StatsSection/> */}
+          <StatsSection/>
+
+          {/* <ClientLogoGrid/> */}
+
+          <InsightsSection/>
+
+         
 
          
           
@@ -48,6 +59,9 @@ function App() {
         </div>
 
       </main>
+
+
+      <Footer/>
     </div>
   );
 }
