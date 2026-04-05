@@ -53,9 +53,7 @@ function App() {
 
          
           
-          <footer className="h-[30vh] flex items-center justify-center border-t border-gray-100">
-            <p className="text-sm font-medium text-gray-400">© 2024 Floka Studio. All rights reserved.</p>
-          </footer>
+         
         </div>
 
       </main>
