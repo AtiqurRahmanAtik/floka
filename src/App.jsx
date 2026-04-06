@@ -8,6 +8,7 @@ import StatsSection from "./components/StatsSection";
 import ClientLogoGrid from "./components/ClientLogoGrid";
 import Footer from "./components/Footer";
 import InsightsSection from "./components/InsightsSection";
+import VideoReelSection from "./components/VideoReelSection";
 
 
 
@@ -46,6 +47,7 @@ function App() {
           <StatsSection/>
 
           <ClientLogoGrid/>
+          <VideoReelSection/>
 
           <InsightsSection/>
 
