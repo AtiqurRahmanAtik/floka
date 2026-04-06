@@ -26,7 +26,7 @@ function App() {
         
         {/* --- Section 1: Hero (Video is Visible) --- */}
         <section className="h-screen flex items-center justify-center bg-transparent px-8 text-center">
-          <h1 className="text-8xl md:text-[140px] font-bold tracking-tighter text-[#1A1A1A] leading-none drop-shadow-sm">
+          <h1 className="text-8xl md:text-[140px] font-bold tracking-tighter text-white leading-none drop-shadow-sm">
             Floka Studio.
           </h1>
         </section>
