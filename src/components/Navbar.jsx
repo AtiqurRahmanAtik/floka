@@ -32,7 +32,8 @@ const NAV_LINKS = [
   { label: "Blog", href: "#blog" },
 ];
 
-// ─── Icons & Logo ─────────────────────────────────────────────────────────────
+// ─── Components ─────────────────────────────────────────────────────────────
+
 function DotGridIcon({ size = 18, color = "currentColor" }) {
   const dots = [];
   for (let r = 0; r < 3; r++) {
@@ -64,7 +65,7 @@ function FlokaLogo() {
   );
 }
 
-// ─── Mega Menu (Home) ─────────────────────────────────────────────────────────
+// ─── Desktop Mega Menu ─────────────────────────────────────────────────────────
 function MegaMenu({ items, visible }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -72,7 +73,7 @@ function MegaMenu({ items, visible }) {
       opacity: visible ? 1 : 0,
       y: visible ? 0 : -10,
       display: visible ? "block" : "none",
-      duration: 0.25,
+      duration: 0.3,
       ease: "power2.out"
     });
   }, [visible]);
@@ -97,12 +98,12 @@ function MegaMenu({ items, visible }) {
   );
 }
 
-// ─── NavItem ──────────────────────────────────────────────────────────────────
+// ─── NavItem (Desktop) ─────────────────────────────────────────────────────────
 function NavItem({ link }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="relative h-full flex items-center" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-      <a href={link.href} className="inline-flex items-center gap-1.5 text-[14.5px] font-medium text-[#3a3a3a] hover:text-black transition-colors font-['DM_Sans']">
+      <a href={link.href} className="inline-flex items-center gap-1.5 text-[14.5px] font-medium text-[#3a3a3a] hover:text-black transition-colors font-['DM_Sans'] py-4">
         {link.label}
         {link.megaMenu && (
           <svg width="10" height="10" viewBox="0 0 11 11" className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
@@ -110,8 +111,7 @@ function NavItem({ link }) {
           </svg>
         )}
       </a>
-      {/* Animated Underline */}
-      <span className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ease-out ${open ? "w-full" : "w-0"}`} />
+      <span className={`absolute bottom-0 left-0 h-[2.5px] bg-black transition-all duration-300 ease-out ${open ? "w-full" : "w-0"}`} />
       {link.megaMenu && <MegaMenu items={link.megaMenu} visible={open} />}
     </div>
   );
@@ -120,6 +120,9 @@ function NavItem({ link }) {
 // ─── Main Navbar ──────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const overlayRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -127,50 +130,99 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // GSAP Animation for Mobile Menu
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      gsap.to(overlayRef.current, { opacity: 1, display: "block", duration: 0.3 });
+      gsap.to(menuRef.current, { x: 0, duration: 0.5, ease: "power4.out" });
+    } else {
+      gsap.to(overlayRef.current, { opacity: 0, display: "none", duration: 0.3 });
+      gsap.to(menuRef.current, { x: "100%", duration: 0.5, ease: "power4.in" });
+    }
+  }, [mobileMenuOpen]);
+
   return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-      
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-[70px] flex items-center ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b" : "bg-[#f5f5f0] border-b border-[#e8e8e4]"
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-[75px] flex items-center ${
+        scrolled ? "bg-white shadow-md" : "bg-[#f5f5f0] border-b border-[#e8e8e4]"
       }`}>
-        <div className="w-full px-8 lg:px-16 flex items-center h-full">
+        <div className="w-full px-6 lg:px-16 flex items-center justify-between h-full">
           
-          {/* 1. Logo (Fixed Left) */}
-          <div className="flex-shrink-0 w-40">
+          {/* Logo */}
+          <div className="flex-shrink-0">
             <FlokaLogo />
           </div>
 
-          {/* 2. Navigation (Center - Justify Between) */}
-          <nav className="hidden md:flex flex-1 h-full max-w-3xl mx-auto justify-between items-center px-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-10 h-full">
             {NAV_LINKS.map((link) => (
               <NavItem key={link.label} link={link} />
             ))}
           </nav>
 
-          {/* 3. Utilities (Fixed Right) */}
-          <div className="hidden md:flex items-center justify-end gap-8 w-64">
-            <a href="mailto:info@floka.com" className="text-[14px] font-medium text-[#3a3a3a] hover:text-black font-['DM_Sans'] transition-colors">
+          {/* Desktop Utilities */}
+          <div className="hidden lg:flex items-center gap-8">
+            <a href="mailto:info@floka.com" className="text-[14px] font-bold text-[#3a3a3a] hover:text-black font-['DM_Sans'] transition-colors">
               info@floka.com
             </a>
-            
             <div className="h-5 w-[1.5px] bg-[#d1d0ca]" />
-            
-            <button className="text-[#3a3a3a] hover:text-black transition-all transform hover:scale-110 active:scale-95" aria-label="Menu">
+            <button className="text-[#3a3a3a] hover:text-black transition-all" aria-label="Menu">
               <DotGridIcon size={20} />
             </button>
           </div>
 
-          {/* Mobile Menu Icon */}
-          <button className="md:hidden ml-auto flex flex-col gap-1.5 p-2 group">
-            <span className="w-6 h-[2px] bg-black group-hover:w-4 transition-all"></span>
-            <span className="w-4 h-[2px] bg-black group-hover:w-6 transition-all"></span>
+          {/* Mobile Menu Toggle Button */}
+          <button 
+            className="lg:hidden flex flex-col gap-1.5 p-2 group z-[60]"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span className={`w-6 h-[2px] bg-black transition-all ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+            <span className={`w-6 h-[2px] bg-black transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}></span>
+            <span className={`w-6 h-[2px] bg-black transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
           </button>
         </div>
       </header>
+
+      {/* --- MOBILE OVERLAY & MENU --- */}
+      <div 
+        ref={overlayRef} 
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] hidden"
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      <div 
+        ref={menuRef}
+        className="fixed top-0 right-0 h-full w-[85%] max-w-[400px] bg-white z-[58] shadow-2xl translate-x-full p-10 flex flex-col justify-between"
+      >
+        <div className="flex flex-col gap-8 mt-12">
+          <p className="text-[10px] font-black text-gray-400 tracking-[0.3em] uppercase">Navigation</p>
+          <nav className="flex flex-col gap-6">
+            {NAV_LINKS.map((link) => (
+              <a 
+                key={link.label} 
+                href={link.href} 
+                className="text-4xl font-bold tracking-tighter text-[#1a1a1a] hover:text-gray-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        <div className="flex flex-col gap-4 border-t pt-8">
+          <a href="mailto:info@floka.com" className="text-xl font-bold text-black">info@floka.com</a>
+          <div className="flex gap-4">
+            {/* Social Icons Placeholder */}
+            {["TW", "IG", "BE", "LN"].map(soc => (
+              <span key={soc} className="text-xs font-black text-gray-400 cursor-pointer hover:text-black">{soc}</span>
+            ))}
+          </div>
+        </div>
+      </div>
       
       {/* Spacer to prevent content overlapping the fixed header */}
-      <div className="h-[70px]" aria-hidden="true" />
+      <div className="h-[75px]" aria-hidden="true" />
     </>
   );
 }
